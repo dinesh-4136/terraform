@@ -1,0 +1,48 @@
+# Main block
+provider "aws" {
+  region = "ap-south-1"
+}
+
+module "ubuntu-instance" {
+  source            = "./terraform"
+  ami-id            = "ami-0f918f7e67a3323f0"
+  key-pair          = "MyKey"
+  instance-type     = "t3.micro"
+  availability-zone = "ap-south-1c"
+  instance-name     = "slave-1"
+}
+
+module "linux-instance" {
+  source            = "./terraform"
+  ami-id            = "ami-0d03cb826412c6b0f"
+  key-pair          = "MyKey"
+  instance-type     = "t3.micro"
+  availability-zone = "ap-south-1c"
+  instance-name     = "slave-2"
+}
+
+# Output block
+output "linux_instance_id" {
+  value = module.linux-instance.id
+}
+
+output "ubuntu_instance_id" {
+  value = module.ubuntu-instance.id
+}
+
+output "linux_public_ip" {
+  value = module.linux-instance.public_ip
+}
+
+output "ubuntu_public_ip" {
+  value = module.ubuntu-instance.public_ip
+}
+
+# Baackend block
+terraform {
+  backend "s3" {
+    bucket = "tf-task-bkt-tf"
+    key    = "ec2/terraform.tfstate"
+    region = "ap-south-1"
+  }
+}

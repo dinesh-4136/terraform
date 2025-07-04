@@ -1,0 +1,41 @@
+# Terraform block
+terraform {
+         required_providers {
+          aws = {
+           source  = "hashicorp/aws"
+           version = "5.97.0"
+           }
+          }
+}
+
+# Provider block
+provider "aws" {
+        region = "ap-south-1"
+}
+
+# Resource block
+resource "aws_instance" "example" {
+                ami               = var.ami-id
+                key_name          = var.key-pair
+                instance_type     = var.instance-type
+                availability_zone = var.availability-zone
+                tags = {
+                Name = var.instance-name
+                }
+}
+
+# variable block
+variable "ami-id" {}
+variable "key-pair" {}
+variable "instance-type" {}
+variable "availability-zone" {}
+variable "instance-name" {}
+
+# Outputs block
+output "id" {
+  value = aws_instance.example.id
+}
+
+output "public_ip" {
+  value = aws_instance.example.public_ip
+}

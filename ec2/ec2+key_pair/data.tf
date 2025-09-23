@@ -1,9 +1,9 @@
-data "aws_iam" "ubuntu" {
+data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["amazon"]
+  owners      = ["099720109477"]
   filter {
-    name = "name"
-    values = "ubuntu-anbox-server/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-anbox-server-20250312-f95ba830-8427-4876-9fc2-270678612806"
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20250821"]
   }
 }
 
@@ -13,7 +13,7 @@ data "aws_vpc" "my_vpc" {
 
 data "aws_security_group" "my_sg" {
   filter {
-    name = "group-name"
-    value = ["default"]
+    name   = "group-name"
+    values = ["default"]
   }
 }
